@@ -1,0 +1,15 @@
+{
+  "name": "websocketer",
+  "version": "1.0.0",
+  "description": "A small CLI node app to test communication over websockets.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Albina Ezus",
+  "license": "MIT",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "ws": "^7.2.5"
+  }
+}

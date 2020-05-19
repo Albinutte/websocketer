@@ -1,2 +1,15 @@
 # websocketer
-A small node app to test communication over websockets
+
+A small CLI node app to test communication over websockets.
+
+## Installation
+
+```$xslt
+npm install
+```
+
+### Running
+
+```$xslt
+
+```

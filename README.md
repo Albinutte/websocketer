@@ -11,5 +11,5 @@ npm install
 ### Running
 
 ```$xslt
-
+npm start <websocket_url>
 ```

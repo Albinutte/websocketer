@@ -7,8 +7,12 @@ window.onload = () => {
   const formatButton = document.querySelector('#format-button');
   formatButton.addEventListener('click', () => {
     const text = textarea.value;
-    const json = JSON.parse(text);
-    textarea.value = JSON.stringify(json, null, 2);
+    try {
+      const json = JSON.parse(text);
+      textarea.value = JSON.stringify(json, null, 2);
+    } catch (error) {
+      alert(error);
+    }
   });
 
   const sendButton = document.querySelector('#send-button');

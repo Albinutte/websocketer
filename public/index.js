@@ -25,8 +25,8 @@ window.onload = () => {
   });
 
   document.querySelector('#connect-url-button').addEventListener('click', (event) => {
-    setUrl();
     event.preventDefault();
+    setUrl();
   });
 
   textarea.addEventListener('keydown', (event) => {
@@ -87,6 +87,10 @@ function setUrl() {
         break;
     }
   };
+
+  webSocket.onerror = () => setStatus('error');
+
+  webSocket.onclose = () => setStatus('closed');
 }
 
 function postResponseMessage(message) {

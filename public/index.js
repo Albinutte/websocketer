@@ -38,14 +38,25 @@ window.onload = () => {
   // todo [albina]: add "history" tab (with "clear history" option)
 };
 
+let buttonStateResetTimeout = null;
 function sendMessage() {
-  const textarea = document.querySelector('#input-textarea');
-  if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-    // todo [albina]: briefly change button to "sent"
-    webSocket.send(textarea.value);
-  } else {
+  if (!webSocket || webSocket.readyState !== WebSocket.OPEN) {
     alert('Websocket connection is down');
+    return;
   }
+
+  webSocket.send(document.querySelector('#input-textarea').value);
+
+  const button = document.querySelector('#send-button');
+  if (buttonStateResetTimeout) {
+    clearTimeout(buttonStateResetTimeout);
+  }
+  button.classList.replace('btn-primary', 'btn-success');
+  button.innerText = 'Sent!';
+  buttonStateResetTimeout = setTimeout(() => {
+    button.classList.replace('btn-success', 'btn-primary');
+    button.innerText = 'Send';
+  }, 2000);
 }
 
 function setUrl() {

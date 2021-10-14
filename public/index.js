@@ -17,8 +17,8 @@ window.onload = () => {
 
   const sendButton = document.querySelector('#send-button');
   sendButton.addEventListener('click', () => {
-    console.log(webSocket.readyState);
     if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+      // todo [albina]: briefly change button to "sent"
       webSocket.send(textarea.value);
     } else {
       alert('Websocket connection is broken');
@@ -34,6 +34,10 @@ window.onload = () => {
     setUrl();
     event.preventDefault();
   });
+
+  // todo [albina]: submit message from textarea on cmd + enter and ctr + enter
+
+  // todo [albina]: add "history" tab (with "clear history" option)
 };
 
 function setUrl() {

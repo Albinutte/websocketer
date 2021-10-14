@@ -11,3 +11,23 @@ legend {
   font-size: 12px;
   color: darkred;
 }
+
+#status-span[data-state="unknown"] {
+  color: gray;
+}
+
+#status-span[data-state="error"] {
+  color: darkred;
+}
+
+#status-span[data-state="closed"] {
+  color: darkred;
+}
+
+#status-span[data-state="connecting"] {
+  color: lightblue;
+}
+
+#status-span[data-state="connected"] {
+  color: darkgreen;
+}

@@ -1,6 +1,4 @@
-const connectionPath = `ws://${window.location.host}/ws://129.132.28.188:49152`;
-
-const webSocket = new WebSocket(connectionPath);
+let webSocket = null;
 
 window.onload = () => {
   const textarea = document.querySelector('#input-textarea');
@@ -15,28 +13,62 @@ window.onload = () => {
 
   const sendButton = document.querySelector('#send-button');
   sendButton.addEventListener('click', () => {
-    webSocket.send(textarea.value);
+    console.log(webSocket.readyState);
+    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+      webSocket.send(textarea.value);
+    }
   });
 
-  webSocket.onmessage = (event) => {
-    if (responsePre.getAttribute('data-updated')) {
-      responsePre.removeAttribute('data-updated');
-      responsePre.innerHTML = '';
-    }
-    const message = formatMessage(event.data);
-    const separator = getSeparator();
-    responsePre.innerHTML = `${separator}<div>${message}</div>${responsePre.innerHTML}`;
-  };
+  document.querySelector('#clear-button').addEventListener('click', () => {
+    responsePre.innerHTML = 'Responses will show up here';
+    responsePre.setAttribute('data-updated', 'false');
+  });
+
+  document.querySelector('#connect-url-button').addEventListener('click', (event) => {
+    setUrl();
+    event.preventDefault();
+  });
 };
 
-function formatMessage(message) {
-  const parsedMsg = JSON.parse(message);
-  switch (parsedMsg.type) {
-    case 'remote_message':
-      return formatData(parsedMsg.data);
-    default:
-      return parsedMsg;
+function setUrl() {
+  const url = document.querySelector('#url-input').value;
+
+  if (webSocket) {
+    webSocket.close();
   }
+
+  const connectionPath = `ws://${window.location.host}/${url}`;
+  webSocket = new WebSocket(connectionPath);
+  setStatus('connecting');
+
+  webSocket.onmessage = (event) => {
+    const parsedMsg = JSON.parse(event.data);
+    switch (parsedMsg.type) {
+      case 'remote_message':
+        postResponseMessage(formatData(parsedMsg.data));
+        break;
+      case 'remote_error':
+        setStatus('error');
+        break;
+      case 'remote_close':
+        setStatus('closed');
+        break;
+      case 'remote_open':
+        setStatus('connected');
+        break;
+    }
+  };
+}
+
+function postResponseMessage(message) {
+  const responsePre = document.querySelector('#response-pre');
+
+  if (responsePre.getAttribute('data-updated')) {
+    responsePre.removeAttribute('data-updated');
+    responsePre.innerHTML = '';
+  }
+  const separator = getSeparator();
+  responsePre.innerHTML = `${separator}<div>${message}</div>${responsePre.innerHTML}`;
 }
 
 function formatData(data) {
@@ -58,5 +90,13 @@ function getSeparator() {
 }
 
 window.onunload = () => {
-  webSocket.close();
+  if (webSocket) {
+    webSocket.close();
+  }
 };
+
+function setStatus(status) {
+  const statusSpan = document.querySelector('#status-span');
+  statusSpan.innerText = status;
+  statusSpan.setAttribute('data-state', status);
+}

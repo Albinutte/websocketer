@@ -13,6 +13,10 @@ export async function configure(server: HttpServer) {
 }
 
 function configureRemoteConnection(remoteWs: WebSocket, ws: WebSocket) {
+  remoteWs.on('open', () => {
+    ws.send(JSON.stringify({ type: 'remote_open' }));
+  });
+
   remoteWs.on('message', (data) => {
     ws.send(
       JSON.stringify({

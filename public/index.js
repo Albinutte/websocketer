@@ -20,6 +20,8 @@ window.onload = () => {
     console.log(webSocket.readyState);
     if (webSocket && webSocket.readyState === WebSocket.OPEN) {
       webSocket.send(textarea.value);
+    } else {
+      alert('Websocket connection is broken');
     }
   });
 

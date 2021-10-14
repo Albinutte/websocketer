@@ -15,14 +15,8 @@ window.onload = () => {
     }
   });
 
-  const sendButton = document.querySelector('#send-button');
-  sendButton.addEventListener('click', () => {
-    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-      // todo [albina]: briefly change button to "sent"
-      webSocket.send(textarea.value);
-    } else {
-      alert('Websocket connection is broken');
-    }
+  document.querySelector('#send-button').addEventListener('click', () => {
+    sendMessage();
   });
 
   document.querySelector('#clear-button').addEventListener('click', () => {
@@ -35,10 +29,24 @@ window.onload = () => {
     event.preventDefault();
   });
 
-  // todo [albina]: submit message from textarea on cmd + enter and ctr + enter
+  textarea.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+      sendMessage();
+    }
+  });
 
   // todo [albina]: add "history" tab (with "clear history" option)
 };
+
+function sendMessage() {
+  const textarea = document.querySelector('#input-textarea');
+  if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+    // todo [albina]: briefly change button to "sent"
+    webSocket.send(textarea.value);
+  } else {
+    alert('Websocket connection is down');
+  }
+}
 
 function setUrl() {
   const url = document.querySelector('#url-input').value;

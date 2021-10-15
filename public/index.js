@@ -140,23 +140,24 @@ function setStatus(status) {
 }
 
 function setUpTabs() {
-  const sendMsgTab = document.querySelector('#send-msg-tab');
-  const historyTab = document.querySelector('#history-tab');
+  const TABS = ['send-msg', 'history'];
 
-  const sendMsgTabContent = document.querySelector('#send-msg-tab-content');
-  const historyTabContent = document.querySelector('#history-tab-content');
+  const selectTab = (tabName) => {
+    TABS.forEach((tab) => {
+      const tabElement = document.querySelector(`#${tab}-tab`);
+      const contentElement = document.querySelector(`#${tab}-tab-content`);
+      if (tab === tabName) {
+        tabElement.classList.add('active');
+        contentElement.classList.remove('visually-hidden');
+      } else {
+        tabElement.classList.remove('active');
+        contentElement.classList.add('visually-hidden');
+      }
+    });
+  };
 
-  sendMsgTab.addEventListener('click', () => {
-    historyTab.classList.remove('active');
-    historyTabContent.classList.add('visually-hidden');
-    sendMsgTab.classList.add('active');
-    sendMsgTabContent.classList.remove('visually-hidden');
-  });
-
-  historyTab.addEventListener('click', () => {
-    sendMsgTab.classList.remove('active');
-    sendMsgTabContent.classList.add('visually-hidden');
-    historyTab.classList.add('active');
-    historyTabContent.classList.remove('visually-hidden');
+  TABS.forEach((tabName) => {
+    const tab = document.querySelector(`#${tabName}-tab`);
+    tab.addEventListener('click', () => selectTab(tabName));
   });
 }

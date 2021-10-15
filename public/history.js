@@ -46,11 +46,20 @@ function updateHistory() {
     .join('');
 
   document.querySelectorAll('.copy-button').forEach((button) => {
+    button.revertStateTimeout = null;
     button.addEventListener('click', () => {
       const historyElement = button.closest('.history-element');
       const content = historyElement.querySelector('.history-element--content').innerText;
       navigator.clipboard.writeText(content).then(() => {
-        alert('Copied to clipboard');
+        if (button.revertStateTimeout) {
+          clearTimeout(button.revertStateTimeout);
+        }
+        button.classList.remove('btn-secondary');
+        button.classList.add('btn-success');
+        button.revertStateTimeout = setTimeout(() => {
+          button.classList.add('btn-secondary');
+          button.classList.remove('btn-success');
+        }, 1000);
       });
     });
   });

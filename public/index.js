@@ -35,6 +35,8 @@ window.onload = () => {
     }
   });
 
+  setUpTabs();
+
   // todo [albina]: add "history" tab (with "clear history" option)
 };
 
@@ -132,4 +134,26 @@ function setStatus(status) {
   const statusSpan = document.querySelector('#status-span');
   statusSpan.innerText = status;
   statusSpan.setAttribute('data-state', status);
+}
+
+function setUpTabs() {
+  const sendMsgTab = document.querySelector('#send-msg-tab');
+  const historyTab = document.querySelector('#history-tab');
+
+  const sendMsgTabContent = document.querySelector('#send-msg-tab-content');
+  const historyTabContent = document.querySelector('#history-tab-content');
+
+  sendMsgTab.addEventListener('click', () => {
+    historyTab.classList.remove('active');
+    historyTabContent.classList.add('visually-hidden');
+    sendMsgTab.classList.add('active');
+    sendMsgTabContent.classList.remove('visually-hidden');
+  });
+
+  historyTab.addEventListener('click', () => {
+    sendMsgTab.classList.remove('active');
+    sendMsgTabContent.classList.add('visually-hidden');
+    historyTab.classList.add('active');
+    historyTabContent.classList.remove('visually-hidden');
+  });
 }

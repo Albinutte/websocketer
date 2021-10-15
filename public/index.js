@@ -4,7 +4,7 @@ import * as history from './history.js';
 
 let webSocket = null;
 
-window.onload = () => {
+window.addEventListener('load', () => {
   const textarea = document.querySelector('#input-textarea');
   const responsePre = document.querySelector('#response-pre');
 
@@ -40,7 +40,7 @@ window.onload = () => {
   });
 
   setUpTabs();
-};
+});
 
 let buttonStateResetTimeout = null;
 function sendMessage() {

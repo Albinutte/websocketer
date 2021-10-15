@@ -4,6 +4,7 @@
   <title>Websocketer</title>
   <meta charset="UTF-8" />
   <script type="module" src="index.js"></script>
+  <script type="module" src="history.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
   <link href="index.css" rel="stylesheet" />
 </head>
@@ -34,14 +35,19 @@
           <button class="btn btn-primary m-1" id="send-button">Send</button>
         </div>
       </div>
-      <diiv id="history-tab-content" class="flex-fill visually-hidden">
-        Sup
+      <diiv id="history-tab-content" class="flex-fill visually-hidden d-flex flex-column">
+        <pre class="flex-fill" id="history-pre" data-updated="false">History will show up here</pre>
+        <div>
+          <button id="clear-history-button" class="btn btn-danger">Clear</button>
+        </div>
       </diiv>
     </div>
   </div>
   <div class="d-flex flex-column p-2 w-50 flex-fill">
     <pre class="flex-fill" id="response-pre" data-updated="false">Responses will show up here</pre>
-    <button id="clear-button" class="btn btn-danger">Clear</button>
+    <div>
+      <button id="clear-button" class="btn btn-danger">Clear</button>
+    </div>
   </div>
 </div>
 </body>

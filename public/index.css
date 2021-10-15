@@ -31,3 +31,9 @@ legend {
 #status-span[data-state="connected"] {
   color: darkgreen;
 }
+
+pre {
+  background: lightgray;
+  border: 1px solid darkgray;
+  padding: 2px;
+}

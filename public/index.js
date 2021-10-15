@@ -1,3 +1,7 @@
+import * as history from './history.js';
+
+// todo [albina]: add "history" tab (with "clear history" option)
+
 let webSocket = null;
 
 window.onload = () => {
@@ -36,8 +40,6 @@ window.onload = () => {
   });
 
   setUpTabs();
-
-  // todo [albina]: add "history" tab (with "clear history" option)
 };
 
 let buttonStateResetTimeout = null;
@@ -47,7 +49,9 @@ function sendMessage() {
     return;
   }
 
+  const msg = document.querySelector('#input-textarea').value;
   webSocket.send(document.querySelector('#input-textarea').value);
+  history.saveMessage(msg);
 
   const button = document.querySelector('#send-button');
   if (buttonStateResetTimeout) {
@@ -120,8 +124,7 @@ function formatData(data) {
 }
 
 function getSeparator() {
-  const now = new Date().toISOString();
-  return `<fieldset><legend>${now}</legend></fieldset>`;
+  return `<fieldset><legend>${new Date().toISOString()}</legend></fieldset>`;
 }
 
 window.onunload = () => {

@@ -1,7 +1,5 @@
 import * as history from './history.js';
 
-// todo [albina]: add "history" tab (with "clear history" option)
-
 let webSocket = null;
 
 window.addEventListener('load', () => {

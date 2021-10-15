@@ -25,10 +25,6 @@ function getHistory() {
   }
 }
 
-export function copyToClipboard() {
-  // todo [albina]:
-}
-
 function updateHistory() {
   const history = getHistory();
   const historyPre = document.querySelector('#history-pre');
@@ -41,12 +37,25 @@ function updateHistory() {
   history.reverse();
   historyPre.innerHTML = history
     .reduce((acc, { message, date }) => {
-      acc.push(`${getSeparator(date)}<div>${message}</div>`);
+      const separator = getSeparator(date);
+      acc.push(
+        `<div class="mb-4 history-element">${separator}<div class="history-element--content">${message}</div></div>`
+      );
       return acc;
     }, [])
     .join('');
+
+  document.querySelectorAll('.copy-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const historyElement = button.closest('.history-element');
+      const content = historyElement.querySelector('.history-element--content').innerText;
+      navigator.clipboard.writeText(content).then(() => {
+        alert('Copied to clipboard');
+      });
+    });
+  });
 }
 
 function getSeparator(date) {
-  return `<fieldset><legend>${date}</legend></fieldset>`;
+  return `<fieldset><legend>${date}<button class="copy-button btn btn-sm btn-secondary mx-2">📋</button></legend></fieldset>`;
 }
